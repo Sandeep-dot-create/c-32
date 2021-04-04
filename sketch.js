@@ -1,189 +1,148 @@
 const Engine = Matter.Engine;
-const World = Matter.World;
+const World= Matter.World;
 const Bodies = Matter.Bodies;
 const Constraint = Matter.Constraint;
 
 var engine, world;
-var holder,polygon,ground;
-var stand1,stand2;
-var polygon;
-var slingShot;
-var polygon_img;
-var backgroundImg;
-
+var stand1, stand1, ground1;
+var box1, box2, box3, box4, box5, box6, box7, box8, box9, box10, box11, box12, box13, box14, box15, box16, box17, box18;
+var polygon1, slingShot;
 var score = 0;
-function preload(){
-  polygon_img=loadImage("Images/polygon.png");
+var backgroundImg;
+var gameState = "on slingshot";
+var bg = "Sprites/bg.jpg";
+
+function preload() {
   getBackgroundImg();
+  backgroundImg = loadImage("Sprites/bg.jpg");
 }
+
 function setup() {
-  createCanvas(900,400);
+  createCanvas(800,400);
   engine = Engine.create();
   world = engine.world;
 
-  ground = new Ground();
-  stand1 = new Stand(390,300,250,10);
-  stand2 = new Stand(700,200,200,10);
- 
-  //level one
-  block1 = new Block(300,275,30,40);
-  block2 = new Block(330,275,30,40);
-  block3 = new Block(360,275,30,40);
-  block4 = new Block(390,275,30,40);
-  block5 = new Block(420,275,30,40);
-  block6 = new Block(450,275,30,40);
-  block7 = new Block(480,275,30,40);
-  //level two
-  block8 = new Block(330,235,30,40);
-  block9 = new Block(360,235,30,40);
-  block10 = new Block(390,235,30,40);
-  block11 = new Block(420,235,30,40);
-  block12 = new Block(450,235,30,40);
-  //level three
-  block13 = new Block(360,195,30,40);
-  block14 = new Block(390,195,30,40);
-  block15 = new Block(420,195,30,40);
-  //top
-  block16 = new Block(390,155,30,40);
+  createSprite(400, 200, 50, 50);
 
-  //set 2 for second stand
-  //level one
-  blocks1 = new Block(640,175,30,40);
-  blocks2 = new Block(670,175,30,40);
-  blocks3 = new Block(700,175,30,40);
-  blocks4 = new Block(730,175,30,40);
-  blocks5 = new Block(760,175,30,40);
-  //level two
-  blocks6 = new Block(670,135,30,40);
-  blocks7 = new Block(700,135,30,40);
-  blocks8 = new Block(730,135,30,40);
-  //top
-  blocks9 = new Block(700,95,30,40);
+  stand1 = new Ground(390,height - 100,200,20);
+  stand2 = new Ground(650,height - 200,200,20);
+  ground1 = new Ground(400,height + 50,800,20);
 
-  //polygon holder with slings
-  polygon = Bodies.circle(50,200,20);
-  World.add(world,polygon);
-  
-  slingShot = new Slingshot(this.polygon,{x:100,y:200});
+  box1 = new Box(330, 235, 30, 40);
+  box2 = new Box(360, 235, 30, 40);
+  box3 = new Box(390, 235, 30, 40);
+  box4 = new Box(420, 235, 30, 40);
+  box5 = new Box(450, 235, 30, 40);
 
+  box6 = new Box(360, 195, 30, 40);
+  box7 = new Box(390, 195, 30, 40);
+  box8 = new Box(420, 195, 30, 40);
+
+  box9 = new Box(390, 185, 30, 40);
+
+  box10 = new Box(590, 135, 30, 40);
+  box11 = new Box(620, 135, 30, 40);
+  box12 = new Box(650, 135, 30, 40);
+  box13 = new Box(680, 135, 30, 40);
+  box14 = new Box(710, 135, 30, 40);
+
+  box15 = new Box(620, 85, 30, 40);
+  box16 = new Box(650, 85, 30, 40);
+  box17 = new Box(680, 85, 30, 40);
+
+  box18 = new Box(650, 55, 30, 40);
+
+  polygon1 = new Polygon(100, 280, 40);
+
+  slingShot = new SlingShot(polygon1.body, {x: 150, y: 150});
 }
+
 function draw() {
-  if(backgroundImg){
+  if(backgroundImg) {
     background(backgroundImg);
-    }
-
-  stroke(210,190,200)
-  textSize(30);
-  fill(255,255,0);
-  text("Score:"+score,700,30);
+}
   
+  noStroke();
   textSize(20);
-  fill("brown");
-  strokeWeight(6);
-  text("Drag the polygon to destroy the blocks",300,30);
-
-  textSize(15);
-  text("Press Space to get a second Chance to Play!!",590 ,350);
+  fill("white");
+  text("SCORE :" + score, 650, 40);
+  text("Press the space key for another chance!", 400, 380);
 
   Engine.update(engine);
 
-  ground.display();
-  stand1.display();
-  stand2.display();
-  strokeWeight(2);
-  stroke(15);
-  fill("skyblue");
-  block1.display();
-  block1.score();
-  block2.display();
-  block2.score();
-  block3.display();
-  block3.score();
-  block4.display();
-  block4.score();
-  block5.display();
-  block5.score();
-  block6.display();
-  block6.score();
-  block7.display();
-  block7.score();
-  fill("pink");
-  block8.display();
-  block8.score();
-  block9.display();
-  block9.score();
-  block10.display();
-  block10.score();
-  block11.display();
-  block11.score();
-  block12.display();
-  block12.score();
-  fill("turquoise");
-  block13.display();
-  block13.score();
-  block14.display();
-  block14.score();
-  block15.display();
-  block15.score();
-  fill("grey");
-  block16.display();
-  block16.score();
-  fill("skyblue");
-  blocks1.display();
-  blocks1.score();
-  blocks2.display();
-  blocks2.score();
-  blocks3.display();
-  blocks3.score();
-  blocks4.display();
-  blocks4.score();
-  blocks5.display();
-  blocks5.score();
-  fill("turquoise");
-  blocks6.display();
-  blocks6.score();
-  blocks7.display();
-  blocks7.score();
-  blocks8.display();
-  blocks8.score();
-  fill("pink")
-  blocks9.display();
-  blocks9.score();
-  fill("gold");
-  imageMode(CENTER)
-  image(polygon_img ,polygon.position.x,polygon.position.y,40,40);
+  stroke("black");
 
+  box1.score();
+  box1.display();
+  box2.score();
+  box2.display();
+  box3.score();
+  box3.display();
+  box4.score();
+  box4.display();
+  box5.score();
+  box5.display();
+  box6.score();
+  box6.display();
+  box7.score();
+  box7.display();
+  box8.score();
+  box8.display();
+  box9.score();
+  box9.display();
+  box10.score();
+  box10.display();
+  box11.score();
+  box11.display();
+  box12.score();
+  box12.display();
+  box13.score();
+  box13.display();
+  box14.score();
+  box14.display();
+  box15.score();
+  box15.display();
+  box16.score();
+  box16.display();
+  box17.score();
+  box17.display();
+  box18.score();
+  box18.display();
+  stand1.display();
+  stand2.display()
+  ground1.display();
+  polygon1.display();
   slingShot.display();
-  
 }
+
 function mouseDragged(){
-  Matter.Body.setPosition(this.polygon,{x:mouseX,y:mouseY});
-}
-function mouseReleased(){
-  slingShot.fly();
-}
-function keyPressed(){
-  if(keyCode === 32){
-      slingShot.attach(this.polygon);
+  if(gameState!=="launched"){
+    Matter.Body.setPosition(polygon1.body, {x: mouseX , y: mouseY});
   }
 }
 
-async function getBackgroundImg (){
+function mouseReleased() {
+  slingShot.fly();
+  gameState = "launched";
+}
 
-  var response = await fetch ("http://worldtimeapi.org/api/timezone/Asia/Kolkata");
+function keyPressed() {
+  if(keyCode === 32) {
+      slingShot.attach(polygon1.body);
+      gameState = "on slingshot";
+  }
+}
+
+async function getBackgroundImg() {
+  var response = await fetch("https://worldtimeapi.org/api/timezone/Asia/Kolkata");
   var responseJSON = await response.json();
-  var datetime = responseJSON.datetime;
-  var hour = datetime.slice(11,13);
-  console.log(responseJSON);
-    if(hour>= 06 && hour<= 18){
-      bg = "Images/background1.jpg";
-    }
-
-    else{
-       bg = "Images/background2.jpg";
-    }
-
-    backgroundImg = loadImage(bg);
-
-    console.log(backgroundImg);
+  var date = responseJSON.datetime;
+  var hour = date.slice(11, 13);
+  if(hour>=06 && hour<=19){
+      bg = "Sprites/bg.jpg"
+  } else {
+      bg = "Sprites/bg1.jpg"
+  }
+  backgroundImg = loadImage(bg);
+  console.log(backgroundImg);
 }
